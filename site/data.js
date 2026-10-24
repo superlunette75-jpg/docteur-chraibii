@@ -11,6 +11,10 @@ window.CLINIC = {
   plusCode: "MXGJ+7C",
   city: "Saada, Marrakech",
   mapsUrl: "https://maps.app.goo.gl/1Mx5HhFjTWWTVUW79",
+  // Public address of the website (used for canonical links, sitemap and Google). Change it
+  // when the real domain is known, then run: npm run prerender
+  siteUrl: "https://dr-chraibi.netlify.app",
+  lat: 31.6756871, lng: -8.0191237,
   mapsEmbed: "https://www.google.com/maps?q=31.6756871,-8.0191237&z=16&output=embed",
   rating: 5.0,
   reviewsCount: 44,
@@ -129,6 +133,19 @@ window.I18N = {
   fr: {
     dir: "ltr", label: "FR", locale: "fr-FR",
     heroEyebrowShort: "Dentiste · Marrakech",
+    seoTitle: "Dentiste à Marrakech (Saada) · Cabinet dentaire Dr. Chraibi · RDV WhatsApp",
+    seoDesc: "Cabinet dentaire du Dr Chraibi à Saada, Marrakech : détartrage et hygiène bucco-dentaire, soins des caries, blanchiment, implants, orthodontie, dents des enfants et urgences. Note 5,0 sur Google (44 avis). Rendez-vous en ligne, confirmé sur WhatsApp.",
+    ogTitle: "Dentiste à Marrakech · Dr. Chraibi",
+    cityIn: "à Marrakech",
+    altHero: "Sourire naturel et dents saines après des soins au cabinet dentaire du Dr Chraibi à Marrakech",
+    altBrush: "Brosse à dents, fil dentaire et brossettes pour l'hygiène bucco-dentaire",
+    altRoom: "Salle de soins du cabinet dentaire Dr Chraibi à Saada, Marrakech",
+    altWaiting: "Salle d'attente du cabinet dentaire à Marrakech",
+    clinicSeo: "Le cabinet dentaire du Dr Chraibi est situé à Saada, à Marrakech. Il accueille adultes et enfants pour les soins dentaires courants, le détartrage et l'hygiène bucco-dentaire, le blanchiment et l'esthétique du sourire, les implants et prothèses, l'orthodontie avec aligneurs, les dévitalisations, les extractions et les urgences dentaires. Consultations en arabe, darija, français et anglais, du lundi au vendredi de 9h à 19h et le samedi de 9h à 13h.",
+    faqMore: [
+      ["Où se trouve le cabinet dentaire du Dr Chraibi ?", "À Saada, Marrakech (code Google Maps MXGJ+7C). Le bouton « Itinéraire » ouvre le trajet dans Google Maps."],
+      ["Le cabinet est-il ouvert le samedi ?", "Oui, le samedi de 9h à 13h. En semaine, du lundi au vendredi de 9h à 19h. Fermé le dimanche."]
+    ],
     navServices: "Soins", navHygiene: "Hygiène", navClinic: "Le cabinet", navContact: "Contact",
     book: "Réserver", bookLong: "Réserver un rendez-vous", chat: "Parler à l'assistant", chatShort: "Assistant",
     heroEyebrow: "Cabinet dentaire · Saada, Marrakech",
@@ -217,6 +234,19 @@ window.I18N = {
   en: {
     dir: "ltr", label: "EN", locale: "en-GB",
     heroEyebrowShort: "Dentist · Marrakech",
+    seoTitle: "Dentist in Marrakech (Saada) · Dr. Chraibi Dental Clinic · Book on WhatsApp",
+    seoDesc: "Dr. Chraibi's dental clinic in Saada, Marrakech: scaling and oral hygiene, fillings, whitening, implants, orthodontics, children's dentistry and emergencies. Rated 5.0 on Google (44 reviews). English-speaking dentist. Book online, confirmed on WhatsApp.",
+    ogTitle: "Dentist in Marrakech · Dr. Chraibi",
+    cityIn: "in Marrakech",
+    altHero: "Natural smile and healthy teeth after care at Dr. Chraibi's dental clinic in Marrakech",
+    altBrush: "Toothbrush, dental floss and interdental brushes for oral hygiene",
+    altRoom: "Treatment room of Dr. Chraibi's dental clinic in Saada, Marrakech",
+    altWaiting: "Waiting room of the dental clinic in Marrakech",
+    clinicSeo: "Dr. Chraibi's dental clinic is located in Saada, Marrakech. It welcomes adults, children and visitors to Marrakech for everyday dental care, scaling and oral hygiene, whitening and smile aesthetics, implants and crowns, orthodontics with clear aligners, root canal treatment, extractions and dental emergencies. Consultations in Arabic, Darija, French and English, Monday to Friday 9am to 7pm and Saturday 9am to 1pm.",
+    faqMore: [
+      ["Where is Dr. Chraibi's dental clinic?", "In Saada, Marrakech (Google Maps code MXGJ+7C). The “Directions” button opens the route in Google Maps."],
+      ["Is the clinic open on Saturday?", "Yes, on Saturday from 9am to 1pm. On weekdays, Monday to Friday from 9am to 7pm. Closed on Sunday."]
+    ],
     navServices: "Treatments", navHygiene: "Hygiene", navClinic: "The clinic", navContact: "Contact",
     book: "Book", bookLong: "Book an appointment", chat: "Talk to the assistant", chatShort: "Assistant",
     heroEyebrow: "Dental clinic · Saada, Marrakech",
@@ -303,6 +333,19 @@ window.I18N = {
   ar: {
     dir: "rtl", label: "ع", locale: "ar-MA",
     heroEyebrowShort: "طبيب أسنان · مراكش",
+    seoTitle: "طبيب أسنان في مراكش (السعادة) · عيادة الدكتور الشرايبي · حجز عبر واتساب",
+    seoDesc: "عيادة الدكتور الشرايبي لطب الأسنان في حي السعادة بمراكش: إزالة الجير ونظافة الفم، علاج التسوس، تبييض الأسنان، الزرع، التقويم، أسنان الأطفال والحالات المستعجلة. تقييم 5.0 على Google (44 تقييمًا). احجز موعدك عبر الإنترنت مع تأكيد على واتساب.",
+    ogTitle: "طبيب أسنان في مراكش · الدكتور الشرايبي",
+    cityIn: "في مراكش",
+    altHero: "ابتسامة طبيعية وأسنان سليمة بعد العلاج في عيادة الدكتور الشرايبي بمراكش",
+    altBrush: "فرشاة أسنان وخيط وفرشاة بينية لنظافة الفم والأسنان",
+    altRoom: "قاعة العلاج في عيادة الدكتور الشرايبي بحي السعادة، مراكش",
+    altWaiting: "قاعة الانتظار في عيادة طب الأسنان بمراكش",
+    clinicSeo: "تقع عيادة الدكتور الشرايبي لطب الأسنان في حي السعادة بمراكش. تستقبل الكبار والأطفال لعلاجات الأسنان اليومية، إزالة الجير ونظافة الفم، تبييض وتجميل الابتسامة، الزرع والتركيبات، التقويم بالمصففات الشفافة، علاج العصب، القلع والحالات المستعجلة. الاستشارات بالعربية والدارجة والفرنسية والإنجليزية، من الإثنين إلى الجمعة من 9 صباحًا إلى 7 مساءً، ويوم السبت من 9 إلى 1 زوالًا.",
+    faqMore: [
+      ["أين توجد عيادة الدكتور الشرايبي؟", "في حي السعادة بمراكش (رمز خرائط Google: MXGJ+7C). زر «الاتجاهات» يفتح الطريق في خرائط Google."],
+      ["هل العيادة مفتوحة يوم السبت؟", "نعم، يوم السبت من 9 صباحًا إلى 1 زوالًا. ومن الإثنين إلى الجمعة من 9 صباحًا إلى 7 مساءً. مغلقة يوم الأحد."]
+    ],
     navServices: "العلاجات", navHygiene: "النظافة", navClinic: "العيادة", navContact: "اتصل بنا",
     book: "احجز", bookLong: "احجز موعدًا", chat: "تحدث مع المساعد", chatShort: "المساعد",
     heroEyebrow: "عيادة طب الأسنان · السعادة، مراكش",

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://dr-chraibi.netlify.app/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dr-chraibi.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dr-chraibi.netlify.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://dr-chraibi.netlify.app/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dr-chraibi.netlify.app/"/>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/hero-d.webp</image:loc></image:image>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/cabinet.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://dr-chraibi.netlify.app/en/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dr-chraibi.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dr-chraibi.netlify.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://dr-chraibi.netlify.app/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dr-chraibi.netlify.app/"/>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/hero-d.webp</image:loc></image:image>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/cabinet.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://dr-chraibi.netlify.app/ar/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://dr-chraibi.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dr-chraibi.netlify.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://dr-chraibi.netlify.app/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dr-chraibi.netlify.app/"/>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/hero-d.webp</image:loc></image:image>
+    <image:image><image:loc>https://dr-chraibi.netlify.app/images/cabinet.webp</image:loc></image:image>
+  </url>
+</urlset>

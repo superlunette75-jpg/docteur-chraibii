@@ -1,71 +1,62 @@
 /* Page logic: language switch, rendering of sections from data.js, motion, booking sheet. */
 (function () {
-  const C = window.CLINIC;
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const LANG_KEY = "chraibi.lang";
 
-  /* ---------- language ---------- */
+  /* ---------- language ----------
+     Each language has its own address (/ = French, /en/, /ar/) so Google can index all three.
+     On the home page, a first-time visitor gets the language of their phone when it is
+     French, English or Arabic; any other phone language gets English. A language picked
+     by hand is remembered and always wins. */
+  const PAGE_LANG = document.documentElement.getAttribute("lang") || "fr";
+  const BOT = /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit|whatsapp|gptbot|claude|perplexity/i;
+
+  function phoneLang() {
+    const list = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]);
+    for (const l of list) {
+      const code = String(l).toLowerCase().slice(0, 2);
+      if (window.I18N[code]) return code;
+    }
+    return "en";
+  }
+
   function initialLang() {
     const q = new URLSearchParams(location.search).get("lang");
     if (q && window.I18N[q]) return q;
-    try { const s = localStorage.getItem(LANG_KEY); if (s && window.I18N[s]) return s; } catch (e) {}
-    const n = (navigator.language || "fr").slice(0, 2);
-    return window.I18N[n] ? n : "fr";
+    let saved = null;
+    try { saved = localStorage.getItem(LANG_KEY); } catch (e) {}
+    if (saved && window.I18N[saved]) return saved;
+    if (location.pathname === "/" && !BOT.test(navigator.userAgent)) return phoneLang();
+    return PAGE_LANG;
   }
 
-  function setLang(lang) {
+  function setLang(lang, manual) {
     window.LANG = lang;
     const t = window.I18N[lang];
-    document.documentElement.lang = lang;
-    document.documentElement.dir = t.dir;
-    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
-    $$("[data-i18n]").forEach(el => {
-      const v = t[el.dataset.i18n];
-      if (typeof v !== "string") return;
-      if (el.classList.contains("split")) splitWords(el, v);
-      else el.textContent = v;
-    });
-    $$("[data-i18n-ph]").forEach(el => el.placeholder = t[el.dataset.i18nPh]);
-    $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-    renderAll();
+    if (manual) { try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} }
+    let done = [];
+    try { done = JSON.parse(localStorage.getItem("chraibi.routine")) || []; } catch (e) {}
+    const now = window.Booking.clinicNow();
+    window.Render.apply(document, lang, { done, todayIdx: new Date(now.y, now.m, now.d).getDay() });
+    document.title = t.seoTitle;
+    const md = $('meta[name="description"]');
+    if (md) md.setAttribute("content", t.seoDesc);
+    // keep the address bar on the page of the chosen language
+    const path = window.Render.PATHS[lang];
+    if (location.pathname !== path && /^\/(en\/|ar\/)?(index\.html)?$/.test(location.pathname)) {
+      try { history.replaceState(history.state, "", path + location.search.replace(/([?&])lang=\w+&?/, "$1").replace(/[?&]$/, "") + location.hash); } catch (e) {}
+    }
+    bindRoutine();
+    renderHours();
+    renderHeroDays();
+    timerLabel();
+    observe();
     if (window.Chat) window.Chat.onLangChange();
     if (bookingWidget && !$("#bookingSheet").hidden) bookingWidget.rerender();
   }
 
-  function splitWords(el, text) {
-    el.setAttribute("aria-label", text);
-    el.innerHTML = text.split(" ").map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${esc(w)}</span></span>`).join(" ");
-  }
-
-  /* ---------- sections ---------- */
-  function renderAll() {
-    const t = window.I18N[window.LANG];
-    const L = window.LANG;
-
-    // services
-    $("#services").innerHTML = window.SERVICES.filter(s => s.id !== "consultation").map(s => `
-      <article class="svc ${s.featured ? "featured" : ""} ${s.img ? "" : "compact"} reveal">
-        ${s.img ? `<div class="svc-img"><img src="images/${s.img}-640.webp" srcset="images/${s.img}-640.webp 640w, images/${s.img}.webp 1200w" sizes="(max-width: 600px) 92vw, (max-width: 860px) 46vw, 31vw" alt="" loading="lazy" width="640" height="480"></div>` : ""}
-        <div class="svc-body">
-          <span class="svc-icon"><svg><use href="#i-${s.icon}"/></svg></span>
-          <h3>${esc(s.name[L])}</h3>
-          <p>${esc(s.desc[L])}</p>
-          <button type="button" class="svc-book" data-open-booking="${s.id}">${esc(t.bookThis)}<svg class="ic"><use href="#i-arrow"/></svg></button>
-        </div>
-      </article>`).join("");
-
-    // marquee (duplicated for a seamless loop)
-    const words = window.SERVICES.filter(s => s.id !== "consultation").map(s => `<span>${esc(s.name[L])}</span>`).join("");
-    $("#marquee").innerHTML = words + words;
-
-    // hygiene routine (tap to tick)
-    let done = [];
-    try { done = JSON.parse(localStorage.getItem("chraibi.routine")) || []; } catch (e) {}
-    $("#routine").innerHTML = t.routine.map((r, i) => `
-      <li class="${done.includes(i) ? "done" : ""}" data-r="${i}" role="checkbox" aria-checked="${done.includes(i)}" tabindex="0">
-        <span class="tick"><svg class="ic"><use href="#i-check"/></svg></span><span>${esc(r)}</span></li>`).join("");
+  function bindRoutine() {
     $$("#routine li").forEach(li => {
       const toggle = () => {
         li.classList.toggle("done");
@@ -76,32 +67,13 @@
       li.onclick = toggle;
       li.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(); } };
     });
-
-    $("#values").innerHTML = t.values.map(([a, b]) => `<div class="value reveal"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("");
-    $("#steps").innerHTML = t.steps.map(([a, b]) => `<li class="reveal"><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("");
-    $("#reviews").innerHTML = window.REVIEWS.map(r => `
-      <figure class="review reveal">
-        <span class="stars" aria-label="5/5">${'<svg><use href="#i-star"/></svg>'.repeat(5)}</span>
-        <q>${esc(r)}</q>
-        <small><svg class="ic"><use href="#i-check"/></svg>${esc(t.reviewsSource)}</small>
-      </figure>`).join("");
-    $("#faq").innerHTML = t.faq.map(([q, a]) => `<details class="reveal"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
-
-    renderHours();
-    renderHeroDays();
-    timerLabel();
-    observe();
   }
 
   function renderHours() {
     const t = window.I18N[window.LANG];
     const now = window.Booking.clinicNow();
     const todayIdx = new Date(now.y, now.m, now.d).getDay();
-    const order = [1, 2, 3, 4, 5, 6, 0];
-    $("#hoursList").innerHTML = order.map(d => {
-      const r = (C.hours[d] || []).map(x => x.join(" – ")).join(", ");
-      return `<li class="${d === todayIdx ? "today" : ""}"><span data-today="${esc(t.today)}">${t.days[d]}</span><span dir="ltr">${r || t.closed}</span></li>`;
-    }).join("");
+    $$("#hoursList li").forEach((li, i) => li.classList.toggle("today", [1, 2, 3, 4, 5, 6, 0][i] === todayIdx));
 
     const st = window.Booking.openState();
     const el = $("#openStatus");
@@ -185,7 +157,7 @@
   /* ---------- start ---------- */
   document.addEventListener("DOMContentLoaded", () => {
     $("#year").textContent = new Date().getFullYear();
-    $$("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+    $$("[data-lang]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); setLang(b.dataset.lang, true); }));
     document.addEventListener("click", e => {
       const b = e.target.closest("[data-open-booking]");
       if (b) { e.preventDefault(); openBooking(b.dataset.openBooking || null); }

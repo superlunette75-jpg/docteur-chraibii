@@ -4,9 +4,13 @@
   "type": "module",
   "description": "Site du cabinet dentaire Dr. Chraibi (Marrakech): réservation WhatsApp et assistant trilingue",
   "scripts": {
-    "dev": "netlify dev"
+    "dev": "netlify dev",
+    "prerender": "node scripts/prerender.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.137.0"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.14"
   }
 }
